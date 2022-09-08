@@ -1,5 +1,8 @@
 const asyncHandler = require("express-async-handler");
 
+const createAccountModel = require("../models/createAccountModel");
+const { all } = require("../routes/home");
+
 // @desc Home Page
 // @route GET /
 // @access Public
@@ -11,7 +14,16 @@ const home = asyncHandler(async (req, res) => {
 // @route POST /account/create/:name/:email/:password
 // @access Public
 const createAccount = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "Create an account to get started" });
+  if (!req.params.name || !req.params.email || !req.params.password) {
+    res.status(400).json({ message: "Please fill out all fields" });
+  } else {
+    const newAccount = await createAccountModel.create({
+      name: req.params.name,
+      email: req.params.email,
+      password: req.params.password,
+    });
+    res.status(200).json(newAccount);
+  }
 });
 
 // @desc Login Page
@@ -39,6 +51,8 @@ const withdraw = asyncHandler(async (req, res) => {
 // @route GET /account/balance/:email
 // @access Private
 const balance = asyncHandler(async (req, res) => {
+  // const balance = await createAccountModel.find({ email: req.params.email });
+  // res.status(200).json(balance);
   res.status(200).json({ message: "This is your current balance" });
 });
 
@@ -46,7 +60,9 @@ const balance = asyncHandler(async (req, res) => {
 // @route GET /accounts/all
 // @access Public
 const allData = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "Browse our current users" });
+  // const allData = await allData.find();
+
+  res.status(200).json({ message: "This is all the data" });
 });
 
 module.exports = {
