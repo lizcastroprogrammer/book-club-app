@@ -1,5 +1,10 @@
 const mongoose = require("mongoose");
 
+const ROLES = [
+  "member", // a layperson who holds a bank account
+  "admin", // the all powerful admin
+];
+
 const userSchema = mongoose.Schema(
   {
     name: {
@@ -15,10 +20,16 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "Please add a password"],
     },
+    roles: {
+      type: String,
+      enum: ROLES,
+      default: "member",
+      required: [true, "Please add a role"],
+    },
   },
   {
     timestamps: true,
   }
 );
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = { User: mongoose.model("User", userSchema), ROLES };

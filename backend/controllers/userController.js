@@ -1,7 +1,9 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
-const User = require("../models/userModel");
+const { User } = require("../models/userModel");
+
+const SEED_ADMIN_EMAIL = "lizdev-admin@mailinator.com";
 
 // @desc    Register new user
 // @route   POST /api/users
@@ -68,10 +70,25 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Get all users
+// @route   GET /all
+// @access  Private
+const getAll = asyncHandler(async (req, res) => {
+  const users = await User.find({});
+
+  if (users) {
+    res.send(users);
+  } else {
+    res.status(500);
+    throw new Error("Server error");
+  }
+});
+
 // @desc    Get user data
 // @route   GET /api/users/me
 // @access  Private
 const getMe = asyncHandler(async (req, res) => {
+  console.log("TEST 1");
   res.status(200).json(req.user);
 });
 
@@ -82,8 +99,27 @@ const generateToken = (id) => {
   });
 };
 
+async function userSeeder() {
+  // find all
+  const data = await User.find({ email: SEED_ADMIN_EMAIL }).exec();
+  if (data.length !== 0) {
+    // Data exists, no need to seed.
+    return;
+  }
+  const seed = new User({
+    name: "Liz Dev",
+    email: SEED_ADMIN_EMAIL,
+    password: "Adminftw123!",
+    roles: ["admin"],
+  });
+
+  await seed.save();
+}
+
 module.exports = {
   registerUser,
   loginUser,
   getMe,
+  getAll,
+  userSeeder,
 };
