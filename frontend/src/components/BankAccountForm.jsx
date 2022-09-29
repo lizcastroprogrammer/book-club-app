@@ -38,6 +38,7 @@ function BankAccountForm() {
             aria-label="Default select example"
             onChange={handleOnChange}
           >
+            <option value={undefined}></option>
             {users.map((user) => (
               <option selected={user} value={user._id}>
                 {user.name}

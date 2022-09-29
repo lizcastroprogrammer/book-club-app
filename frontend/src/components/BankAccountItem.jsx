@@ -1,6 +1,7 @@
-import { FaTrash, FaTrashAlt } from "react-icons/fa";
+import { FaDollarSign, FaPencilAlt, FaTrash, FaTrashAlt } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { deleteBankAccount } from "../features/bankAccounts/bankAccountSlice";
+import { Link } from "react-router-dom";
 const formatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
@@ -25,6 +26,10 @@ function BankAccountItem({ bankAccount }) {
       >
         <FaTrashAlt />
       </button>
+      &nbsp;
+      <Link className="edit" to={`/admin/${bankAccount._id}`}>
+        <FaDollarSign />
+      </Link>
     </div>
   );
 }
