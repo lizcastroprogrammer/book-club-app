@@ -85,6 +85,21 @@ const updateBankAccount = asyncHandler(async (req, res) => {
   res.status(200).json(updatedBankAccount);
 });
 
+// @desc   Deposit money to bank account
+// @route   PUT /api/bank-accounts/:id/deposit
+// @access  Private
+const depositMoney = asyncHandler(async (req, res) => {
+  try {
+    const bankAccount = await BankAccount.findById(req.params.id);
+    const amount = Number(req.body.amount);
+    bankAccount.balance = bankAccount.balance + amount;
+    bankAccount.save();
+    res.status(200).send(JSON.stringify(bankAccount));
+  } catch (ex) {
+    res.status(400).send(ex.message);
+  }
+});
+
 // @desc    Delete bank account
 // @route   DELETE /api/bank-account/:id
 // @access  Private
@@ -129,4 +144,5 @@ module.exports = {
   setBankAccount,
   updateBankAccount,
   deleteBankAccount,
+  depositMoney,
 };

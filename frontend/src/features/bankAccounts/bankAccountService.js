@@ -15,6 +15,19 @@ const createBankAccount = async (bankAccountData, token) => {
   return response.data;
 };
 
+// Update a bank account
+const updateBankAccount = async (bankAccountData, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.post(API_URL, bankAccountData, config);
+
+  return response.data;
+};
+
 // Get user bank accounts
 const getBankAccounts = async (token) => {
   const config = {
@@ -45,6 +58,7 @@ const bankAccountService = {
   createBankAccount,
   getBankAccounts,
   deleteBankAccount,
+  updateBankAccount,
 };
 
 export default bankAccountService;

@@ -29,7 +29,7 @@ function App() {
               element={<ProtectedRoutes exact element={ControlPanel} />}
             ></Route>
             <Route
-              path="/admin/:bankAccountId/Deposit"
+              path="/admin/:bankAccountId/deposit"
               exact
               element={<ProtectedRoutes exact element={Deposit} />}
             ></Route>

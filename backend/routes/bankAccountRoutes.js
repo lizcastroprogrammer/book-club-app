@@ -5,6 +5,7 @@ const {
   setBankAccount,
   updateBankAccount,
   deleteBankAccount,
+  depositMoney,
 } = require("../controllers/bankAccountController");
 const { hasAdminRole } = require("../middleware/adminMiddleware");
 
@@ -14,6 +15,8 @@ router
   .route("/")
   .get(protect, hasAdminRole, getBankAccounts)
   .post(protect, hasAdminRole, setBankAccount);
+
+router.route("/:id/deposit").post(protect, depositMoney);
 router
   .route("/:id")
   .delete(protect, deleteBankAccount)
