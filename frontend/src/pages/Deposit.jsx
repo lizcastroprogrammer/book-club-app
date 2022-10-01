@@ -27,16 +27,16 @@ function Deposit() {
   // TODO create bank accounts API and wire react app to it
   const { user } = useSelector((state) => state.auth);
   const bankAccountsTemp = useSelector((state) => state.bankAccounts);
-
-  console.log("TEST 10 bankAccountsTemp: ", bankAccountsTemp);
-
   const { bankAccounts, isLoading, isError, message } = bankAccountsTemp;
+
+  console.log("TEST 10 useDepositPost= ", useDepositPost);
+
+  const [fetchMetaInfo, requestObj] = useDepositPost({});
   let { bankAccountId } = useParams();
   //   const [{ data, error, loading }, doFetch] = useDepositPost();
   console.log("TEST 11 bankAccountsTemp: ", bankAccountsTemp);
-  const depositResponse = useDepositPost();
-  console.log("TEST depositResponse=", depositResponse);
   useEffect(() => {
+    console.log("TEST 15 bankAccountsTemp: ", bankAccountsTemp);
     if (!user) {
       navigate("/login");
     }
@@ -62,7 +62,7 @@ function Deposit() {
         initialValues={{ amount: "" }}
         validationSchema={numberValidation}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          depositResponse[1](values);
+          requestObj(bankAccountId, values.amount);
           setSubmitting(true);
           resetForm();
           setSubmitting(false);
