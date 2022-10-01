@@ -41,7 +41,12 @@ function ControlPanel() {
       <p>
         <Link to={`/admin/`}>&lt; Back</Link>
       </p>
-      <Link to={`/admin/${bankAccountId}/deposit`}>Deposit</Link>
+      <p>
+        <Link to={`/admin/${bankAccountId}/deposit`}>Deposit</Link>
+      </p>
+      <p>
+        <Link to={`/admin/${bankAccountId}/withdraw`}>Withdraw</Link>
+      </p>
     </>
   );
 }

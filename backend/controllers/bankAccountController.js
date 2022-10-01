@@ -87,7 +87,7 @@ const depositMoney = asyncHandler(async (req, res) => {
     const amount = Number(req.body.diffAmount);
     const attemptedBalance = bankAccount.balance + amount;
     if (attemptedBalance < 0) {
-      res.status(400).send("Insufficient funds");
+      res.status(400).send({ error: "Insufficient funds" });
       return;
     }
     bankAccount.balance = attemptedBalance;

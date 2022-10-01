@@ -9,6 +9,7 @@ import Register from "./pages/Register";
 import ProtectedRoutes from "./middleware/ProtectedRoutes";
 import ControlPanel from "./pages/ControlPanel";
 import Deposit from "./pages/Deposit";
+import { Withdraw } from "./pages/Withdraw";
 
 function App() {
   return (
@@ -32,6 +33,11 @@ function App() {
               path="/admin/:bankAccountId/deposit"
               exact
               element={<ProtectedRoutes exact element={Deposit} />}
+            ></Route>
+            <Route
+              path="/admin/:bankAccountId/withdraw"
+              exact
+              element={<ProtectedRoutes exact element={Withdraw} />}
             ></Route>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />

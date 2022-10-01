@@ -34,7 +34,7 @@ export const useDepositPost = ({ options: myOptions }) => {
           setResponse(response);
           setError(null);
         } else {
-          setError(data);
+          setError(response);
           setData(null);
         }
         setId(null);

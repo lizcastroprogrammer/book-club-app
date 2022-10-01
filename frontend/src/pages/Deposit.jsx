@@ -20,7 +20,7 @@ const numberValidation = Yup.object().shape({
     ),
 });
 
-function Deposit() {
+function Deposit({ withdraws = false }) {
   console.log("TEST rendering Deposit");
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ function Deposit() {
 
   console.log("TEST 10 useDepositPost= ", useDepositPost);
 
-  const [{ response }, requestObj] = useDepositPost({});
+  const [{ response, error: fetchError }, requestObj] = useDepositPost({});
   useEffect(() => {
     if (response) {
       console.log("TEST 10b response= ", response);
@@ -74,7 +74,7 @@ function Deposit() {
   console.log("TEST 5");
   return (
     <>
-      <h1>Deposit</h1>
+      <h1>{withdraws ? `Withdraw` : `Deposit`}</h1>
       <p>
         <Link to={`/admin/${bankAccountId}`}>&lt; Back</Link>
       </p>
@@ -85,7 +85,7 @@ function Deposit() {
         initialValues={{ amount: "" }}
         validationSchema={numberValidation}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          requestObj(bankAccountId, values.amount);
+          requestObj(bankAccountId, withdraws ? -values.amount : values.amount);
           setSubmitting(true);
           resetForm();
           setSubmitting(false);
@@ -105,19 +105,20 @@ function Deposit() {
               type="text"
               name="amount"
               id="amount"
-              placeholder="Amount to deposit"
+              placeholder={`Amount to ${withdraws ? "withdraw" : "deposit"}`}
               value={values.amount}
               onChange={handleChange}
               className="form-control"
             />
             <LocalError touched={touched.amount} error={errors.amount} />
+            {fetchError?.error && <LocalError error={fetchError.error} />}
             &nbsp;
             <button
               className="form-control"
               disabled={isSubmitting}
               type="submit"
             >
-              Deposit
+              {withdraws ? `Withdraw` : `Deposit`}
             </button>
           </form>
         )}
