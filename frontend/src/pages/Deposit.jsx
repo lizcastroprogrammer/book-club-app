@@ -29,6 +29,7 @@ function Deposit({ withdraws = false }) {
   const bankAccountsTemp = useSelector((state) => state.bankAccounts);
   const { bankAccounts, isLoading, isError, message } = bankAccountsTemp;
   const [myBalance, setMyBalance] = useState(null);
+  const [bankAccountName, setBankAccountName] = useState(null);
 
   console.log("TEST 10 useDepositPost= ", useDepositPost);
 
@@ -49,8 +50,9 @@ function Deposit({ withdraws = false }) {
           (ba) => ba._id === bankAccountId
         )[0];
         console.log("TEST 17 bankAccounts=", bankAccounts);
-        if (bankAccount) {
+        if (bankAccount && bankAccount.user) {
           setMyBalance(bankAccount.balance);
+          setBankAccountName(bankAccount.user.name);
         }
       }
     }
@@ -72,11 +74,26 @@ function Deposit({ withdraws = false }) {
     return <Spinner />;
   }
   console.log("TEST 5");
+  const loggedInUserIsSameAsBankAccount = user._id === bankAccountId;
   return (
     <>
-      <h1>{withdraws ? `Withdraw` : `Deposit`}</h1>
+      <h1>
+        {withdraws ? `Withdraw` : `Deposit`}
+        {bankAccountName && loggedInUserIsSameAsBankAccount
+          ? ``
+          : ` for ${bankAccountName}`}
+      </h1>
       <p>
-        <Link to={`/admin/${bankAccountId}`}>&lt; Back</Link>
+        {console.log("TEST 56 user=", user)}
+        <Link
+          to={
+            user && user.userInfo && user.userInfo.roles === "admin"
+              ? "/admin"
+              : `/admin/${bankAccountId}`
+          }
+        >
+          &lt; Back
+        </Link>
       </p>
       <p>
         <span>Current Balance:</span> <span>${myBalance}</span>

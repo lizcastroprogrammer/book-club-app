@@ -47,7 +47,10 @@ const setBankAccount = asyncHandler(async (req, res) => {
 // @route   PUT /api/bank-accounts/:id
 // @access  Private
 const updateBankAccount = asyncHandler(async (req, res) => {
-  const bankAccount = await BankAccount.findById(req.params.id);
+  const bankAccount = await BankAccount.findById(req.params.id).populate(
+    "user",
+    "id name balance"
+  );
 
   if (!bankAccount) {
     res.status(400);
