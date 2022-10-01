@@ -7,29 +7,21 @@ const BankAccount = require("../models/bankAccountModel");
 // @access  Private
 const getBankAccounts = asyncHandler(async (req, res) => {
   console.log("TEST 5 req.user=", req.user);
-
-  const bankAccounts = await BankAccount.find({}).populate(
+  if (req.user?.roles === "admin") {
+    const bankAccounts = await BankAccount.find({}).populate(
+      "user",
+      "id name balance"
+    );
+    console.log("TEST 5 bankAccounts=", bankAccounts);
+    res.status(200).json(bankAccounts);
+    return;
+  }
+  const bankAccounts = await BankAccount.find({ id: req.user.id }).populate(
     "user",
     "id name balance"
   );
   console.log("TEST 5 bankAccounts=", bankAccounts);
   res.status(200).json(bankAccounts);
-});
-
-// @desc    Get bank accounts for a specific user
-// @route   GET /api/bank-accounts
-// @access  Private
-const getBankAccountsForAUser = asyncHandler(async (req, res) => {
-  console.log("TEST 5 req.user=", req.user);
-  let param = {};
-
-  if (req.user.id) {
-    param = { user: req.user.id };
-  }
-
-  const bankAccount = await BankAccount.find(param);
-  console.log("TEST 5 bankAccount=", bankAccount);
-  res.status(200).json(bankAccount);
 });
 
 // @desc    Set bank account
@@ -91,9 +83,16 @@ const updateBankAccount = asyncHandler(async (req, res) => {
 const depositMoney = asyncHandler(async (req, res) => {
   try {
     const bankAccount = await BankAccount.findById(req.params.id);
-    const amount = Number(req.body.amount);
-    bankAccount.balance = bankAccount.balance + amount;
+    console.log("TEST 7 bankAccount=", bankAccount, "req.body=", req.body);
+    const amount = Number(req.body.diffAmount);
+    const attemptedBalance = bankAccount.balance + amount;
+    if (attemptedBalance < 0) {
+      res.status(400).send("Insufficient funds");
+      return;
+    }
+    bankAccount.balance = attemptedBalance;
     bankAccount.save();
+    console.log("TEST 8 bankAccount=", bankAccount);
     res.status(200).send(JSON.stringify(bankAccount));
   } catch (ex) {
     res.status(400).send(ex.message);
@@ -140,7 +139,6 @@ const deleteBankAccount = asyncHandler(async (req, res) => {
 
 module.exports = {
   getBankAccounts,
-  getBankAccountsForAUser,
   setBankAccount,
   updateBankAccount,
   deleteBankAccount,

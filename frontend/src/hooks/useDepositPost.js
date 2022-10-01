@@ -5,6 +5,7 @@ const API_URL = "/api/bank-accounts";
 export const useDepositPost = ({ options: myOptions }) => {
   console.log("TEST 19");
   const [data, setData] = useState(null);
+  const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [options, setOptions] = useState(myOptions);
@@ -21,15 +22,16 @@ export const useDepositPost = ({ options: myOptions }) => {
         Authorization: `Bearer ${token}`,
       },
       ...options,
+      body: JSON.stringify(data),
     };
     console.log("TEST 21");
     fetch(`${API_URL}/${id}/deposit`, requestOptions)
       .then(async (res) => {
         console.log("TEST 22");
-        const data = await res.json();
+        const response = await res.json();
         // data should have updated balance
         if (res.ok) {
-          setData(data);
+          setResponse(response);
           setError(null);
         } else {
           setError(data);
@@ -54,6 +56,7 @@ export const useDepositPost = ({ options: myOptions }) => {
   };
   const result = [
     {
+      response,
       data,
       error,
       loading,

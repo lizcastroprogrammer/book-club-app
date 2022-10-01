@@ -16,7 +16,7 @@ const numberValidation = Yup.object().shape({
     .required("Must be valid currency")
     .matches(
       /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-      "Must be valid currency"
+      "Must be valid positive currency"
     ),
 });
 
@@ -28,15 +28,35 @@ function Deposit() {
   const { user } = useSelector((state) => state.auth);
   const bankAccountsTemp = useSelector((state) => state.bankAccounts);
   const { bankAccounts, isLoading, isError, message } = bankAccountsTemp;
+  const [myBalance, setMyBalance] = useState(null);
 
   console.log("TEST 10 useDepositPost= ", useDepositPost);
 
-  const [fetchMetaInfo, requestObj] = useDepositPost({});
+  const [{ response }, requestObj] = useDepositPost({});
+  useEffect(() => {
+    if (response) {
+      console.log("TEST 10b response= ", response);
+      setMyBalance(response.balance);
+    }
+  }, [response]);
   let { bankAccountId } = useParams();
   //   const [{ data, error, loading }, doFetch] = useDepositPost();
   console.log("TEST 11 bankAccountsTemp: ", bankAccountsTemp);
   useEffect(() => {
-    console.log("TEST 15 bankAccountsTemp: ", bankAccountsTemp);
+    if (!isLoading && bankAccountId && bankAccounts) {
+      if (bankAccounts.length > 0) {
+        const bankAccount = bankAccounts.filter(
+          (ba) => ba._id === bankAccountId
+        )[0];
+        console.log("TEST 17 bankAccounts=", bankAccounts);
+        if (bankAccount) {
+          setMyBalance(bankAccount.balance);
+        }
+      }
+    }
+  }, [bankAccounts, isLoading, bankAccountId]);
+  useEffect(() => {
+    console.log("TEST 15 bankAccountsTemp=", bankAccountsTemp);
     if (!user) {
       navigate("/login");
     }
@@ -57,6 +77,9 @@ function Deposit() {
       <h1>Deposit</h1>
       <p>
         <Link to={`/admin/${bankAccountId}`}>&lt; Back</Link>
+      </p>
+      <p>
+        <span>Current Balance:</span> <span>${myBalance}</span>
       </p>
       <Formik
         initialValues={{ amount: "" }}
