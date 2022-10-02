@@ -6,6 +6,7 @@ import {
   getBankAccounts,
   reset,
 } from "../features/bankAccounts/bankAccountSlice";
+import { currencyFormatter } from "../utilities";
 
 function ControlPanel() {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ function ControlPanel() {
 
   console.log("bankAccountsTemp: ", bankAccountsTemp);
 
-  const { bankAccounts, isLoading, isError, message } = bankAccountsTemp;
+  const { bankAccounts, isLoading } = bankAccountsTemp;
   let { bankAccountId } = useParams();
 
   useEffect(() => {
@@ -37,15 +38,19 @@ function ControlPanel() {
 
   return (
     <>
-      <h1>Control Panel</h1>
+      <h1>Welcome back {user.userInfo && user.userInfo.name + ","}</h1>
+      {bankAccounts && bankAccounts.length === 1 && (
+        <p>
+          <span>Current Balance:&nbsp;</span>
+          <span>{currencyFormatter.format(bankAccounts[0].balance)}</span>
+        </p>
+      )}
+
       <p>
-        <Link to={`/admin/`}>&lt; Back</Link>
+        <Link to={`/member/${bankAccountId}/deposit`}>Deposit</Link>
       </p>
       <p>
-        <Link to={`/admin/${bankAccountId}/deposit`}>Deposit</Link>
-      </p>
-      <p>
-        <Link to={`/admin/${bankAccountId}/withdraw`}>Withdraw</Link>
+        <Link to={`/member/${bankAccountId}/withdraw`}>Withdraw</Link>
       </p>
     </>
   );

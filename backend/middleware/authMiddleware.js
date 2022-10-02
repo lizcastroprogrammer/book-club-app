@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 const { User } = require("../models/userModel");
 
-const protect = asyncHandler(async (req, res, next) => {
+const decorateUserObject = asyncHandler(async (req, res, next) => {
   let token;
   console.log("TEST 2 req.headers=", req.headers);
   if (
@@ -33,4 +33,4 @@ const protect = asyncHandler(async (req, res, next) => {
   }
 });
 
-module.exports = { protect };
+module.exports = { decorateUserObject };

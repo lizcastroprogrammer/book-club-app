@@ -27,7 +27,11 @@ function Login() {
     }
 
     if (isSuccess || user) {
-      navigate("/");
+      if (user.userInfo.roles === "admin") {
+        navigate("/admin");
+      } else if (user.userInfo.roles === "member") {
+        navigate("/member");
+      }
     }
 
     dispatch(reset());

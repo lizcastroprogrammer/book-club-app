@@ -10,6 +10,7 @@ import ProtectedRoutes from "./middleware/ProtectedRoutes";
 import ControlPanel from "./pages/ControlPanel";
 import Deposit from "./pages/Deposit";
 import { Withdraw } from "./pages/Withdraw";
+import MemberDashboard from "./pages/MemberDashboard";
 
 function App() {
   return (
@@ -19,25 +20,48 @@ function App() {
           <Header />
           <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route
-              path="/admin"
-              exact
-              element={<ProtectedRoutes exact element={AdminDashboard} />}
-            ></Route>
+            <Route path="/admin" exact element={<AdminDashboard />}></Route>
             <Route
               path="/admin/:bankAccountId"
               exact
-              element={<ProtectedRoutes exact element={ControlPanel} />}
+              element={
+                <ProtectedRoutes role="admin" exact element={ControlPanel} />
+              }
             ></Route>
             <Route
               path="/admin/:bankAccountId/deposit"
               exact
-              element={<ProtectedRoutes exact element={Deposit} />}
+              element={<ProtectedRoutes role="admin" exact element={Deposit} />}
             ></Route>
             <Route
               path="/admin/:bankAccountId/withdraw"
               exact
-              element={<ProtectedRoutes exact element={Withdraw} />}
+              element={
+                <ProtectedRoutes role="admin" exact element={Withdraw} />
+              }
+            ></Route>
+
+            <Route path="/member" exact element={<MemberDashboard />}></Route>
+            <Route
+              path="/member/:bankAccountId"
+              exact
+              element={
+                <ProtectedRoutes role="member" exact element={ControlPanel} />
+              }
+            ></Route>
+            <Route
+              path="/member/:bankAccountId/deposit"
+              exact
+              element={
+                <ProtectedRoutes role="member" exact element={Deposit} />
+              }
+            ></Route>
+            <Route
+              path="/member/:bankAccountId/withdraw"
+              exact
+              element={
+                <ProtectedRoutes role="member" exact element={Withdraw} />
+              }
             ></Route>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />

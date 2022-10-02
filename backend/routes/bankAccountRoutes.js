@@ -9,17 +9,17 @@ const {
 } = require("../controllers/bankAccountController");
 const { hasAdminRole } = require("../middleware/adminMiddleware");
 
-const { protect } = require("../middleware/authMiddleware");
+const { decorateUserObject } = require("../middleware/authMiddleware");
 
 router
   .route("/")
-  .get(protect, hasAdminRole, getBankAccounts)
-  .post(protect, hasAdminRole, setBankAccount);
+  .get(decorateUserObject, getBankAccounts)
+  .post(decorateUserObject, hasAdminRole, setBankAccount);
 
-router.route("/:id/deposit").post(protect, depositMoney);
+router.route("/:id/deposit").post(decorateUserObject, depositMoney);
 router
   .route("/:id")
-  .delete(protect, deleteBankAccount)
-  .put(protect, updateBankAccount);
+  .delete(decorateUserObject, deleteBankAccount)
+  .put(decorateUserObject, updateBankAccount);
 
 module.exports = router;

@@ -1,16 +1,16 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import BankAccountForm from "../components/BankAccountForm";
 import BankAccountItem from "../components/BankAccountItem";
 import Spinner from "../components/Spinner";
+import { Navigate } from "react-router-dom";
 import {
   getBankAccounts,
   reset,
 } from "../features/bankAccounts/bankAccountSlice";
 
-function AdminDashboard() {
-  console.log("TEST AdminDashboard");
+function MemberDashboard() {
+  console.log("TEST MemberDashboard");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // TODO create bank accounts API and wire react app to it
@@ -41,14 +41,15 @@ function AdminDashboard() {
     <>
       <section className="heading">
         <h1>Welcome {user && user.name}</h1>
-        <p>Admin Dashboard</p>
+        <p>Member Dashboard</p>
       </section>
-
-      <BankAccountForm />
 
       <section className="content">
         {bankAccounts.length > 0 ? (
           <div className="goals">
+            {bankAccounts.length === 1 && (
+              <Navigate to={`/member/${bankAccounts[0]._id}`} />
+            )}
             {bankAccounts.map((bankAccount) => (
               <BankAccountItem
                 key={bankAccount._id}
@@ -64,4 +65,4 @@ function AdminDashboard() {
   );
 }
 
-export default AdminDashboard;
+export default MemberDashboard;

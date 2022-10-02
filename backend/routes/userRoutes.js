@@ -6,12 +6,12 @@ const {
   getMe,
   getAll,
 } = require("../controllers/userController");
-const { protect } = require("../middleware/authMiddleware");
+const { decorateUserObject } = require("../middleware/authMiddleware");
 const { hasAdminRole } = require("../middleware/adminMiddleware");
 
 router.post("/", registerUser);
 router.post("/login", loginUser);
-router.get("/me", protect, getMe);
-router.get("/all", protect, hasAdminRole, getAll);
+router.get("/me", decorateUserObject, getMe);
+router.get("/all", decorateUserObject, hasAdminRole, getAll);
 
 module.exports = router;

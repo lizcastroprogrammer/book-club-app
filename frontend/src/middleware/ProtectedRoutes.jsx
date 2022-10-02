@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { userme } from "../features/auth/authSlice";
 
-function ProtectedRoute({ element: Component, ...restOfProps }) {
+function ProtectedRoute({ role, element: Component, ...restOfProps }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const { userInfo } = user;
-  const [isAdmin, setIsAdmin] = useState(userInfo?.roles === "admin");
+  const [hasRole, setHasRole] = useState(userInfo?.roles === "admin");
 
   // if userInfo does not exist in the state we need to refetch user info
   useEffect(() => {
@@ -18,19 +18,19 @@ function ProtectedRoute({ element: Component, ...restOfProps }) {
     }
     if (userInfo) {
       console.log("TEST 9 userInfo?.roles=", userInfo?.roles);
-      setIsAdmin(userInfo?.roles === "admin");
+      setHasRole(userInfo?.roles === role);
     }
   }, [userInfo, dispatch, user.token]);
   console.log(
-    "isAdmin=",
-    isAdmin,
+    "hasRole=",
+    hasRole,
     "userInfo=",
     userInfo,
     "Component=",
     Component
   );
 
-  if (isAdmin) {
+  if (hasRole) {
     return <Component {...restOfProps} />;
   }
 
