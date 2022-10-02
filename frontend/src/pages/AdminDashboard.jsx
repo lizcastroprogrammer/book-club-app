@@ -10,22 +10,18 @@ import {
 } from "../features/bankAccounts/bankAccountSlice";
 
 function AdminDashboard() {
-  console.log("TEST AdminDashboard");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // TODO create bank accounts API and wire react app to it
   const { user } = useSelector((state) => state.auth);
   const bankAccountsTemp = useSelector((state) => state.bankAccounts);
 
-  console.log("bankAccountsTemp: ", bankAccountsTemp);
-
-  const { bankAccounts, isLoading, isError, message } = bankAccountsTemp;
+  const { bankAccounts, isLoading } = bankAccountsTemp;
 
   useEffect(() => {
     if (!user) {
       navigate("/login");
     }
-    console.log("TEST get all bank accounts");
     dispatch(getBankAccounts());
 
     return () => {
@@ -51,6 +47,7 @@ function AdminDashboard() {
           <div className="goals">
             {bankAccounts.map((bankAccount) => (
               <BankAccountItem
+                role={"admin"}
                 key={bankAccount._id}
                 bankAccount={bankAccount}
               />

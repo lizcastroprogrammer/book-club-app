@@ -21,7 +21,6 @@ const numberValidation = Yup.object().shape({
 });
 
 function Deposit({ withdraws = false }) {
-  console.log("TEST rendering Deposit");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // TODO create bank accounts API and wire react app to it
@@ -31,25 +30,19 @@ function Deposit({ withdraws = false }) {
   const [myBalance, setMyBalance] = useState(null);
   const [bankAccountName, setBankAccountName] = useState(null);
 
-  console.log("TEST 10 useDepositPost= ", useDepositPost);
-
   const [{ response, error: fetchError }, requestObj] = useDepositPost({});
   useEffect(() => {
     if (response) {
-      console.log("TEST 10b response= ", response);
       setMyBalance(response.balance);
     }
   }, [response]);
   let { bankAccountId } = useParams();
-  //   const [{ data, error, loading }, doFetch] = useDepositPost();
-  console.log("TEST 11 bankAccountsTemp: ", bankAccountsTemp);
   useEffect(() => {
     if (!isLoading && bankAccountId && bankAccounts) {
       if (bankAccounts.length > 0) {
         const bankAccount = bankAccounts.filter(
           (ba) => ba._id === bankAccountId
         )[0];
-        console.log("TEST 17 bankAccounts=", bankAccounts);
         if (bankAccount && bankAccount.user) {
           setMyBalance(bankAccount.balance);
           setBankAccountName(bankAccount.user.name);
@@ -58,22 +51,18 @@ function Deposit({ withdraws = false }) {
     }
   }, [bankAccounts, isLoading, bankAccountId]);
   useEffect(() => {
-    console.log("TEST 15 bankAccountsTemp=", bankAccountsTemp);
     if (!user) {
       navigate("/login");
     }
-    console.log("TEST get all bank accounts");
     dispatch(getBankAccounts());
 
     return () => {
       dispatch(reset());
     };
   }, [user, navigate, dispatch]);
-  console.log("TEST 4");
   if (isLoading) {
     return <Spinner />;
   }
-  console.log("TEST 5");
   const loggedInUserIsSameAsBankAccount = user._id === bankAccountId;
   return (
     <>
@@ -84,12 +73,11 @@ function Deposit({ withdraws = false }) {
           : ` for ${bankAccountName}`}
       </h1>
       <p>
-        {console.log("TEST 56 user=", user)}
         <Link
           to={
-            user && user.userInfo && user.userInfo.roles === "admin"
-              ? "/admin"
-              : `/admin/${bankAccountId}`
+            user && user.userInfo && user.userInfo.roles
+              ? `/${user.userInfo.roles}`
+              : `/${user.userInfo.roles}/${bankAccountId}`
           }
         >
           &lt; Back
@@ -112,7 +100,6 @@ function Deposit({ withdraws = false }) {
           values,
           errors,
           touched,
-          handleBlur,
           handleChange,
           handleSubmit,
           isSubmitting,

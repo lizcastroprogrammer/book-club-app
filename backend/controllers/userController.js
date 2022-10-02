@@ -2,9 +2,9 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 const { User } = require("../models/userModel");
-
-const SEED_ADMIN_EMAIL = "lizdev-admin@mailinator.com";
-
+const BankAccount = require("../models/bankAccountModel");
+const SEED_ADMIN_EMAIL =
+  process.env.ADMIN_EMAIL || "lizdev-admin@mailinator.com";
 // @desc    Register new user
 // @route   POST /api/users
 // @access  Public
@@ -36,12 +36,21 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (user) {
-    res.status(201).json({
-      _id: user.id,
-      name: user.name,
-      email: user.email,
-      token: generateToken(user._id),
+    const bankAccount = await BankAccount.create({
+      balance: 0,
+      user: user._id,
     });
+    if (bankAccount) {
+      res.status(201).json({
+        _id: user.id,
+        name: user.name,
+        email: user.email,
+        token: generateToken(user._id),
+      });
+    }
+    res.status(500);
+    throw new Error("Internal server error");
+    q;
   } else {
     res.status(400);
     throw new Error("Invalid user data");
@@ -88,7 +97,6 @@ const getAll = asyncHandler(async (req, res) => {
 // @route   GET /api/users/me
 // @access  Private
 const getMe = asyncHandler(async (req, res) => {
-  console.log("TEST 1");
   res.status(200).json(req.user);
 });
 
@@ -104,17 +112,19 @@ async function userSeeder() {
   const data = await User.find({ email: SEED_ADMIN_EMAIL }).exec();
   if (data.length !== 0) {
     // Data exists, no need to seed.
+    console.log("Data exists, no need to seed.");
     return;
   }
   const seed = new User({
-    name: "Liz Dev",
+    name: process.env.ADMIN_NAME || "Liz Dev",
     email: SEED_ADMIN_EMAIL,
-    password: "Adminftw123!",
+    password: process.env.ADMIN_PASSWORD || "Test12345",
     roles: ["admin"],
   });
 
   await seed.save();
 }
+userSeeder();
 
 module.exports = {
   registerUser,

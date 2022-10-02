@@ -10,14 +10,11 @@ import {
 } from "../features/bankAccounts/bankAccountSlice";
 
 function MemberDashboard() {
-  console.log("TEST MemberDashboard");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // TODO create bank accounts API and wire react app to it
   const { user } = useSelector((state) => state.auth);
   const bankAccountsTemp = useSelector((state) => state.bankAccounts);
-
-  console.log("bankAccountsTemp: ", bankAccountsTemp);
 
   const { bankAccounts, isLoading, isError, message } = bankAccountsTemp;
 
@@ -25,7 +22,6 @@ function MemberDashboard() {
     if (!user) {
       navigate("/login");
     }
-    console.log("TEST get all bank accounts");
     dispatch(getBankAccounts());
 
     return () => {
@@ -52,6 +48,7 @@ function MemberDashboard() {
             )}
             {bankAccounts.map((bankAccount) => (
               <BankAccountItem
+                role={"member"}
                 key={bankAccount._id}
                 bankAccount={bankAccount}
               />

@@ -52,7 +52,6 @@ function Login() {
       password,
     };
     const loginResult = login(userData);
-    console.log("TEST 3 loginResult=", loginResult);
     dispatch(loginResult);
   };
 

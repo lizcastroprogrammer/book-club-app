@@ -15,7 +15,6 @@ export const createBankAccount = createAsyncThunk(
   async (bankAccountData, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      console.log("TEST backAccountData=", bankAccountData, "token=", token);
       return await bankAccountsService.createBankAccount(
         bankAccountData,
         token
@@ -38,12 +37,9 @@ export const getBankAccounts = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      console.log("TEST bankAccountsService=", bankAccountsService);
       const result = await bankAccountsService.getBankAccounts(token);
-      console.log("TEST result=", result);
       return result;
     } catch (error) {
-      console.log("TEST error=", error);
       const message =
         (error.response &&
           error.response.data &&

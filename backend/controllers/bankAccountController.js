@@ -27,8 +27,6 @@ const getBankAccounts = asyncHandler(async (req, res) => {
 // @route   POST /api/bank-accounts
 // @access  Private
 const setBankAccount = asyncHandler(async (req, res) => {
-  console.log("TEST 6 req=", req.user);
-  console.log("TEST 6 req.body=", req.body);
   if (!req.body.balance || !req.body.userId) {
     res.status(400);
     throw new Error("balance or userId is missing");
@@ -85,7 +83,6 @@ const updateBankAccount = asyncHandler(async (req, res) => {
 const depositMoney = asyncHandler(async (req, res) => {
   try {
     const bankAccount = await BankAccount.findById(req.params.id);
-    console.log("TEST 7 bankAccount=", bankAccount, "req.body=", req.body);
     const amount = Number(req.body.diffAmount);
     const attemptedBalance = bankAccount.balance + amount;
     if (attemptedBalance < 0) {
@@ -94,7 +91,6 @@ const depositMoney = asyncHandler(async (req, res) => {
     }
     bankAccount.balance = attemptedBalance;
     bankAccount.save();
-    console.log("TEST 8 bankAccount=", bankAccount);
     res.status(200).send(JSON.stringify(bankAccount));
   } catch (ex) {
     res.status(400).send(ex.message);
@@ -117,7 +113,6 @@ const deleteBankAccount = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error("User not found");
   }
-  console.log("TEST 3 user=", bankAccount.user);
 
   // Make sure the logged in user matches the goal user
   // add check for admin role here as an OR. admin and members cannot delete account if balance is not 0.00

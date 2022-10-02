@@ -24,7 +24,6 @@ function BankAccountForm() {
 
   const handleOnChange = (e) => {
     setUserId(e.target.value);
-    console.log("users: ", users);
   };
 
   return (

@@ -11,24 +11,13 @@ function ProtectedRoute({ role, element: Component, ...restOfProps }) {
 
   // if userInfo does not exist in the state we need to refetch user info
   useEffect(() => {
-    console.log("USEEFFECT");
     if (!userInfo && user.token && dispatch) {
-      console.log("TEST 8 user.token=", user.token);
       dispatch(userme(user.token));
     }
     if (userInfo) {
-      console.log("TEST 9 userInfo?.roles=", userInfo?.roles);
       setHasRole(userInfo?.roles === role);
     }
   }, [userInfo, dispatch, user.token]);
-  console.log(
-    "hasRole=",
-    hasRole,
-    "userInfo=",
-    userInfo,
-    "Component=",
-    Component
-  );
 
   if (hasRole) {
     return <Component {...restOfProps} />;

@@ -15,8 +15,6 @@ function ControlPanel() {
   const { user } = useSelector((state) => state.auth);
   const bankAccountsTemp = useSelector((state) => state.bankAccounts);
 
-  console.log("bankAccountsTemp: ", bankAccountsTemp);
-
   const { bankAccounts, isLoading } = bankAccountsTemp;
   let { bankAccountId } = useParams();
 
@@ -24,7 +22,6 @@ function ControlPanel() {
     if (!user) {
       navigate("/login");
     }
-    console.log("TEST get all bank accounts");
     dispatch(getBankAccounts());
 
     return () => {

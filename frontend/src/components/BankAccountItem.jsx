@@ -3,9 +3,8 @@ import { useDispatch } from "react-redux";
 import { deleteBankAccount } from "../features/bankAccounts/bankAccountSlice";
 import { Link } from "react-router-dom";
 import { currencyFormatter } from "../utilities";
-function BankAccountItem({ bankAccount }) {
+function BankAccountItem({ bankAccount, role = "member" }) {
   const dispatch = useDispatch();
-  console.log("TEST 10 bankAccount=", bankAccount);
   return (
     <div className="bank-account">
       <h1>{bankAccount.user.name}</h1>
@@ -19,10 +18,10 @@ function BankAccountItem({ bankAccount }) {
         <FaTrashAlt />
       </button>
       &nbsp;
-      <Link className="edit" to={`/admin/${bankAccount._id}/deposit`}>
+      <Link className="edit" to={`/${role}/${bankAccount._id}/deposit`}>
         <FaPlus />
       </Link>
-      <Link className="edit" to={`/admin/${bankAccount._id}/withdraw`}>
+      <Link className="edit" to={`/${role}/${bankAccount._id}/withdraw`}>
         <FaMinus />
       </Link>
     </div>
