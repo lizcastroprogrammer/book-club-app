@@ -44,7 +44,7 @@ function AdminDashboard() {
 
       <section className="content">
         {bankAccounts.length > 0 ? (
-          <div className="goals">
+          <div className="bank-accounts">
             {bankAccounts.map((bankAccount) => (
               <BankAccountItem
                 role={"admin"}
