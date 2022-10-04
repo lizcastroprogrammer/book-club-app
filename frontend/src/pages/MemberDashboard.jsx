@@ -42,7 +42,7 @@ function MemberDashboard() {
 
       <section className="content">
         {bankAccounts.length > 0 ? (
-          <div className="goals">
+          <div className="bank-accounts">
             {bankAccounts.length === 1 && (
               <Navigate to={`/member/${bankAccounts[0]._id}`} />
             )}
