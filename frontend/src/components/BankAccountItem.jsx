@@ -1,10 +1,7 @@
-import { FaMinus, FaPlus, FaTrashAlt } from "react-icons/fa";
-import { useDispatch } from "react-redux";
-import { deleteBankAccount } from "../features/bankAccounts/bankAccountSlice";
+import { FaMinus, FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { currencyFormatter } from "../utilities";
 function BankAccountItem({ bankAccount, role = "member" }) {
-  const dispatch = useDispatch();
   return (
     <div className="bank-account">
       <h1>{bankAccount.user.name}</h1>
