@@ -11,13 +11,6 @@ function BankAccountItem({ bankAccount, role = "member" }) {
       <div>Balance: {currencyFormatter.format(bankAccount.balance)}</div>
       <div>{new Date(bankAccount.createdAt).toLocaleString("en-US")}</div>
       <h2>{bankAccount.text}</h2>
-      <button
-        onClick={() => dispatch(deleteBankAccount(bankAccount._id))}
-        className="close"
-      >
-        <FaTrashAlt />
-      </button>
-      &nbsp;
       <Link className="edit" to={`/${role}/${bankAccount._id}/deposit`}>
         <FaPlus />
       </Link>
