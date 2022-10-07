@@ -6,13 +6,13 @@ const BankAccount = require("../models/bankAccountModel");
 // @route   GET /api/bank-accounts
 // @access  Private
 const getBankAccounts = asyncHandler(async (req, res) => {
-  if (req.user?.roles === "member") {
+  if (req.user.roles === "member") {
     const bankAccounts = await BankAccount.find({
       user: req.user._id,
     }).populate("user", "id name balance");
     res.status(200).json(bankAccounts);
     return;
-  } else if (req.user?.roles === "admin") {
+  } else if (req.user.roles === "admin") {
     const bankAccounts = await BankAccount.find({}).populate(
       "user",
       "id name balance"

@@ -1,8 +1,6 @@
-# TODO change goalsetter to badbank
+# bookclub MERN app
 
-# Goalsetter MERN app
-
-This is the goalsetter app from the [Learn the MERN Stack](https://www.youtube.com/watch?v=-0exw-9YJBo) series on YouTube.
+This is the bookclub app
 
 ## Usage
 
@@ -17,6 +15,19 @@ npm install
 # Frontend deps
 cd frontend
 npm install
+```
+
+### Environmental Variables for Local
+Create a file called `.env` on project root and fill out the relevant values
+```
+NODE_ENV=
+PORT=
+MONGO_URI=
+ADMIN_EMAIL=
+ADMIN_NAME=
+ADMIN_PASSWORD=
+JWT_SECRET=
+PUBLIC_URL=
 ```
 
 ### Run Server
