@@ -1,6 +1,6 @@
 # bookclub MERN app
 
-This is the bookclub app
+This is the book club app
 
 ## Usage
 
@@ -18,7 +18,9 @@ npm install
 ```
 
 ### Environmental Variables for Local
+
 Create a file called `.env` on project root and fill out the relevant values
+
 ```
 NODE_ENV=
 PORT=
