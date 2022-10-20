@@ -13,8 +13,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/api/bank-accounts", require("./routes/bankAccountRoutes"));
-app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/book-clubs", require("./routes/bookClubRoutes"));
+app.use("/api/users", require("./routes/bookUserRoutes"));
 
 // Serve frontend
 if (process.env.NODE_ENV === "production") {

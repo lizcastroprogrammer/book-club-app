@@ -9,7 +9,7 @@ import {
   reset,
 } from "../features/bankAccounts/bankAccountSlice";
 
-function AdminDashboard() {
+function AdminProfile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // TODO create bank accounts API and wire react app to it
@@ -61,4 +61,4 @@ function AdminDashboard() {
   );
 }
 
-export default AdminDashboard;
+export default AdminProfile;
