@@ -3,18 +3,18 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FaUser } from "react-icons/fa";
-import { register, reset } from "../features/auth/authSlice";
+import { bookClubRegister, reset } from "../features/auth/authSlice";
 import Spinner from "../components/Spinner";
 
 function Register() {
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
-    password: "",
-    password2: "",
+    location: "",
+    virtual: false,
+    inperson: false,
   });
 
-  const { name, email, password, password2 } = formData;
+  const { name, location, virtual, inperson } = formData;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -29,6 +29,7 @@ function Register() {
     }
 
     if (isSuccess || user) {
+      //TODO: navigate to admin profile instead of member?
       navigate("/member");
       toast.success("Registration successful");
     }
@@ -46,17 +47,17 @@ function Register() {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if (password !== password2) {
-      toast.error("Passwords do not match");
-    } else {
-      const userData = {
-        name,
-        email,
-        password,
-      };
+    // if (password !== password2) {
+    //   toast.error("Passwords do not match");
+    // } else {
+    const bookClubData = {
+      name,
+      location,
+      virtual,
+      inperson,
+    };
 
-      dispatch(register(userData));
-    }
+    dispatch(bookClubRegister(bookClubData));
   };
 
   if (isLoading) {
@@ -69,7 +70,7 @@ function Register() {
         <h1>
           <FaUser /> Register
         </h1>
-        <p>Please create an account</p>
+        <p>Please create a book club</p>
       </section>
 
       <section className="form">
@@ -81,43 +82,37 @@ function Register() {
               id="name"
               name="name"
               value={name}
-              placeholder="Enter your name"
+              placeholder="Enter book club name"
               onChange={onChange}
             />
           </div>
           <div className="form-group">
             <input
-              type="email"
+              type="text"
               className="form-control"
-              id="email"
-              name="email"
-              value={email}
-              placeholder="Enter your email"
+              id="location"
+              name="location"
+              value={location}
+              placeholder="Enter book club location"
               onChange={onChange}
             />
           </div>
-          <div className="form-group">
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              name="password"
-              value={password}
-              placeholder="Enter password"
-              onChange={onChange}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="password"
-              className="form-control"
-              id="password2"
-              name="password2"
-              value={password2}
-              placeholder="Confirm password"
-              onChange={onChange}
-            />
-          </div>
+          <input
+            type="checkbox"
+            id="virtual"
+            name="virtual"
+            value={virtual}
+            onChange={onChange}
+          />
+          <label for="virtual">Virtual</label>
+          <input
+            type="checkbox"
+            id="inperson"
+            name="inperson"
+            value={inperson}
+            onChange={onChange}
+          />
+          <label for="inperson"> In-person </label>
           <div className="form-group">
             <button type="submit" className="btn btn-block">
               Submit

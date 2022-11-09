@@ -1,28 +1,24 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import BankAccountForm from "../components/BankAccountForm";
-import BankAccountItem from "../components/BankAccountItem";
+import NewClubMemberForm from "../components/NewClubMemberForm";
+import NewClubMemberItem from "../components/NewClubMemberItem";
 import Spinner from "../components/Spinner";
-import {
-  getBankAccounts,
-  reset,
-} from "../features/bankAccounts/bankAccountSlice";
+import { getBookClubs, reset } from "../features/bookClubs/bookClubSlice";
 
 function AdminProfile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // TODO create bank accounts API and wire react app to it
   const { user } = useSelector((state) => state.auth);
-  const bankAccountsTemp = useSelector((state) => state.bankAccounts);
+  const bookClubsTemp = useSelector((state) => state.bookClubs);
 
-  const { bankAccounts, isLoading } = bankAccountsTemp;
+  const { bookClubs, isLoading } = bookClubsTemp;
 
   useEffect(() => {
     if (!user) {
       navigate("/login");
     }
-    dispatch(getBankAccounts());
+    dispatch(getBookClubs());
 
     return () => {
       dispatch(reset());
@@ -40,21 +36,21 @@ function AdminProfile() {
         <p>Admin Dashboard</p>
       </section>
 
-      <BankAccountForm />
+      <NewClubMemberForm />
 
       <section className="content">
-        {bankAccounts.length > 0 ? (
+        {bookClubs.length > 0 ? (
           <div className="bank-accounts">
-            {bankAccounts.map((bankAccount) => (
-              <BankAccountItem
+            {bookClubs.map((bookClub) => (
+              <NewClubMemberItem
                 role={"admin"}
-                key={bankAccount._id}
-                bankAccount={bankAccount}
+                key={bookClub._id}
+                bookClub={bookClub}
               />
             ))}
           </div>
         ) : (
-          <h3>There are no bank accounts.</h3>
+          <h3>There are no book clubs.</h3>
         )}
       </section>
     </>

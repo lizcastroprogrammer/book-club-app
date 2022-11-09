@@ -6,33 +6,21 @@ const BookClub = require("../models/bookClubModel");
 // @route   GET /api/book-clubs
 // @access  Private
 const getBookClubs = asyncHandler(async (req, res) => {
-  if (req.user.roles === "member") {
-    const bookClubs = await BookClub.find({
-      user: req.user._id,
-    }).populate("user", "id name balance");
+  try {
+    const bookClubs = await BookClub.find({}).populate("user", "id name");
     res.status(200).json(bookClubs);
-    return;
-  } else if (req.user.roles === "admin") {
-    const bookClubs = await BookClub.find({}).populate(
-      "user",
-      "id name balance"
-    );
-    res.status(200).json(bookClubs);
-    return;
+  } catch (error) {
+    res.status(500);
+    throw new Error("Server error");
   }
-  res.status(400).json({ error: "Bad request" });
 });
 
 // @desc    Set book club
 // @route   POST /api/book-clubs
 // @access  Private
 const setBookClub = asyncHandler(async (req, res) => {
-  if (!req.body.balance || !req.body.userId) {
-    res.status(400);
-    throw new Error("balance or userId is missing");
-  }
-
   const bookClub = await BookClub.create({
+    //TODO: add bookclub properties
     balance: Number(req.body.balance),
     user: req.body.userId,
   });

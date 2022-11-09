@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
-const { User } = require("../models/userModel");
-const BankAccount = require("../models/bankAccountModel");
+const { User } = require("../models/bookUserModel");
+const BookClub = require("../models/bookClubModel");
 const SEED_ADMIN_EMAIL =
   process.env.ADMIN_EMAIL || "lizdev-admin@mailinator.com";
 // @desc    Register new user
@@ -36,11 +36,11 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (user) {
-    const bankAccount = await BankAccount.create({
+    const bookClub = await BookClub.create({
       balance: 0,
       user: user._id,
     });
-    if (bankAccount) {
+    if (bookClub) {
       res.status(201).json({
         _id: user.id,
         name: user.name,
@@ -119,7 +119,7 @@ async function userSeeder() {
     name: process.env.ADMIN_NAME || "Liz Dev",
     email: SEED_ADMIN_EMAIL,
     password: process.env.ADMIN_PASSWORD || "Test12345",
-    roles: ["admin"],
+    roles: "admin",
   });
 
   await seed.save();

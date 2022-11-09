@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import profilePic from "./example-profile-pic.jpg";
 import { useSelector, useDispatch } from "react-redux";
 import BankAccountItem from "../components/BankAccountItem";
 import Spinner from "../components/Spinner";
@@ -37,10 +38,11 @@ function MemberDashboard() {
     <>
       <section className="heading">
         <h1>Welcome {user && user.name}</h1>
-        <p>Member Dashboard</p>
+        <p>User Profile</p>
+        <img src={profilePic} alt="profile" className="profile-pic" />
       </section>
 
-      <section className="content">
+      {/* <section className="content">
         {bankAccounts.length > 0 ? (
           <div className="bank-accounts">
             {bankAccounts.length === 1 && (
@@ -57,6 +59,9 @@ function MemberDashboard() {
         ) : (
           <h3>There are no bank accounts.</h3>
         )}
+      </section> */}
+      <section className="content">
+        <h3>User book clubs</h3>
       </section>
     </>
   );

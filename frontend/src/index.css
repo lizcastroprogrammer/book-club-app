@@ -191,6 +191,13 @@ h3 {
   animation: spin 1.2s linear infinite;
 }
 
+.profile-pic {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: gray solid 1px;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);

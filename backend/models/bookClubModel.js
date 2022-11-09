@@ -2,15 +2,19 @@ const mongoose = require("mongoose");
 
 const bookClubSchema = mongoose.Schema(
   {
-    user: {
+    admin: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
     },
-    balance: {
-      type: Number,
-      required: [true, "Please add a balance"],
-    },
+    users: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "User",
+      },
+    ],
+    currentBook: String,
   },
   {
     timestamps: true,

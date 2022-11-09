@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/book-clubs", require("./routes/bookClubRoutes"));
-app.use("/api/users", require("./routes/bookUserRoutes"));
+app.use("/api/users", require("./routes/userRoutes"));
 
 // Serve frontend
 if (process.env.NODE_ENV === "production") {

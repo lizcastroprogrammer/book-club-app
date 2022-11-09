@@ -30,6 +30,24 @@ export const register = createAsyncThunk(
   }
 );
 
+// Register book club
+export const bookClubRegister = createAsyncThunk(
+  "auth/registerbookclub",
+  async (bookClub, thunkAPI) => {
+    try {
+      return await authService.register(bookClub);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 // Login user
 export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
   try {

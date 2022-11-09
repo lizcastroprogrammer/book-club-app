@@ -12,7 +12,6 @@ import {
 function AdminDashboard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // TODO create bank accounts API and wire react app to it
   const { user } = useSelector((state) => state.auth);
   const bankAccountsTemp = useSelector((state) => state.bankAccounts);
 
